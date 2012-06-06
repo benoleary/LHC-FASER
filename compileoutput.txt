@@ -1,0 +1,2 @@
+ld: duplicate symbol LHC_FASER::inputHandler::getEmptyList() const in /var/folders/wH/wHvisVywEXql3ZMrpbaXIk+++TI/-Tmp-//ccKUpiEW.o and /var/folders/wH/wHvisVywEXql3ZMrpbaXIk+++TI/-Tmp-//cczX9Akq.o
+collect2: ld returned 1 exit status
