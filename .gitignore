@@ -112,3 +112,7 @@ Debug/objects.mk
 Debug/sources.mk
 
 Debug/subdir.mk
+
+.cproject
+
+.project
