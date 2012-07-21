@@ -393,7 +393,12 @@ namespace LHC_FASER
     kinematicsTable( kinematicsSource->getLeptonAcceptancesForOneBeamEnergy(
                                                                 beamEnergy ) ),
     beamEnergy( beamEnergy ),
-    inputShortcut( inputShortcut )
+    inputShortcut( inputShortcut ),
+    electroweakinoCascadeSets(),
+    bosonCascadeSets(),
+    virtualSdownCascadeSets(),
+    virtualTopCascadeSets(),
+    currentCascadeSet( NULL )
   {
     // just an initialization list.
   }

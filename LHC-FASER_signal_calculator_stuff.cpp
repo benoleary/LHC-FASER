@@ -646,8 +646,11 @@ namespace LHC_FASER
     excludedFinalStateParticles(),
     firstCascadeBrToEwino( CppSLHA::CppSLHA_global::really_wrong_value ),
     secondCascadeBrToEwino( CppSLHA::CppSLHA_global::really_wrong_value ),
+    initialPair( NULL ),
     firstSparticleIsNotAntiparticle( true ),
-    secondSparticleIsNotAntiparticle( true )
+    secondSparticleIsNotAntiparticle( true ),
+    subchannelCrossSectionTimesBrToEwinos(
+                                  CppSLHA::CppSLHA_global::really_wrong_value )
   {
     // debugging:
     /**std::cout << std::endl << "debugging:"
@@ -702,8 +705,11 @@ namespace LHC_FASER
     excludedFinalStateParticles(),
     firstCascadeBrToEwino( CppSLHA::CppSLHA_global::really_wrong_value ),
     secondCascadeBrToEwino( CppSLHA::CppSLHA_global::really_wrong_value ),
+    initialPair( NULL ),
     firstSparticleIsNotAntiparticle( true ),
-    secondSparticleIsNotAntiparticle( true )
+    secondSparticleIsNotAntiparticle( true ),
+    subchannelCrossSectionTimesBrToEwinos(
+                                  CppSLHA::CppSLHA_global::really_wrong_value )
   {
     // just an initialization list.
   }
@@ -1397,7 +1403,8 @@ namespace LHC_FASER
 
     sigmaBreakdownTest::sigmaBreakdownTest(
                          signalDefinitionSet const* const signalDefinitions ) :
-        signalCalculator( signalDefinitions )
+        signalCalculator( signalDefinitions ),
+        channelBrTotal( CppSLHA::CppSLHA_global::really_wrong_value )
     {
       // just an initialization list.
     }
@@ -1522,7 +1529,7 @@ namespace LHC_FASER
 
 
     int const
-    atlasFourJetMetPlusGivenLeptonCuts::jetAcceptanceGridTableColumn( 10 );
+    atlasFourJetMetPlusGivenLeptonCuts::jetAcceptanceGridTableColumn( 5 );
     // this is dependent on the format of the grids.
     double const
     atlasFourJetMetPlusGivenLeptonCuts::defaultExtraJetCut( 40.0 );
@@ -1616,7 +1623,17 @@ namespace LHC_FASER
                             signalDefinitionSet const* const signalDefinitions,
      leptonAcceptanceForCascadePair const* const leptonAcceptanceCalculator ) :
         signalCalculator( signalDefinitions ),
-        leptonAcceptanceCalculator( leptonAcceptanceCalculator )
+        leptonAcceptanceCalculator( leptonAcceptanceCalculator ),
+        fourJetKinematics( NULL ),
+        threeJetKinematics( NULL ),
+        twoJetKinematics( NULL ),
+        fourJetAcceptance( CppSLHA::CppSLHA_global::really_wrong_value ),
+        threeJetAcceptance( CppSLHA::CppSLHA_global::really_wrong_value ),
+        subchannelValue( CppSLHA::CppSLHA_global::really_wrong_value ),
+        subchannelZeroOrMoreJets(
+                                 CppSLHA::CppSLHA_global::really_wrong_value ),
+        subchannelOneOrMoreJets( CppSLHA::CppSLHA_global::really_wrong_value ),
+        subchannelTwoOrMoreJets( CppSLHA::CppSLHA_global::really_wrong_value )
     {
       // debugging:
       /**std::cout << std::endl << "debugging:"
@@ -1628,27 +1645,35 @@ namespace LHC_FASER
       << signalDefinitions->getSecondaryLeptonCut();
       std::cout << std::endl;**/
 
+      // this needs to change if I ever get around to replacing Carsten's 7TeV
+      // grids:
+      int jetAcceptanceColumn( jetAcceptanceGridTableColumn );
+      if( 7 == signalDefinitions->getBeamEnergy() )
+      {
+        jetAcceptanceColumn = 10;
+      }
+
       std::string jetGridName( "Atlas4jMET" );
       fourJetKinematics
       = signalDefinitions->getShortcuts()->getJetPlusMetAcceptances(
                                                )->getJetPlusMetAcceptanceTable(
                                             signalDefinitions->getBeamEnergy(),
                                                                   &jetGridName,
-                                                jetAcceptanceGridTableColumn );
+                                                         jetAcceptanceColumn );
       jetGridName.assign( "Atlas3jMET" );
       threeJetKinematics
       = signalDefinitions->getShortcuts()->getJetPlusMetAcceptances(
                                                )->getJetPlusMetAcceptanceTable(
                                             signalDefinitions->getBeamEnergy(),
                                                                   &jetGridName,
-                                                jetAcceptanceGridTableColumn );
+                                                         jetAcceptanceColumn );
       jetGridName.assign( "Atlas2jMET" );
       twoJetKinematics
       = signalDefinitions->getShortcuts()->getJetPlusMetAcceptances(
                                                )->getJetPlusMetAcceptanceTable(
                                             signalDefinitions->getBeamEnergy(),
                                                                   &jetGridName,
-                                                jetAcceptanceGridTableColumn );
+                                                         jetAcceptanceColumn );
       excludedFinalStateParticles.push_back( CppSLHA::PDG_code::top );
       excludedFinalStateParticles.push_back( -(CppSLHA::PDG_code::top) );
     }
@@ -1908,7 +1933,7 @@ namespace LHC_FASER
 
 
     int const
-    atlasThreeJetMetPlusGivenLeptonCuts::jetAcceptanceGridTableColumn( 10 );
+    atlasThreeJetMetPlusGivenLeptonCuts::jetAcceptanceGridTableColumn( 5 );
     // this is dependent on the format of the grids.
     double const
     atlasThreeJetMetPlusGivenLeptonCuts::defaultExtraJetCut( 40.0 );
@@ -1993,7 +2018,14 @@ namespace LHC_FASER
                             signalDefinitionSet const* const signalDefinitions,
      leptonAcceptanceForCascadePair const* const leptonAcceptanceCalculator ) :
         signalCalculator( signalDefinitions ),
-        leptonAcceptanceCalculator( leptonAcceptanceCalculator )
+        leptonAcceptanceCalculator( leptonAcceptanceCalculator ),
+        threeJetKinematics( NULL ),
+        twoJetKinematics( NULL ),
+        threeJetAcceptance( CppSLHA::CppSLHA_global::really_wrong_value ),
+        subchannelValue( CppSLHA::CppSLHA_global::really_wrong_value ),
+        subchannelZeroOrMoreJets(
+                                 CppSLHA::CppSLHA_global::really_wrong_value ),
+        subchannelOneOrMoreJets( CppSLHA::CppSLHA_global::really_wrong_value )
     {
       // debugging:
       /**std::cout << std::endl << "debugging:"
@@ -2005,20 +2037,28 @@ namespace LHC_FASER
       << signalDefinitions->getSecondaryLeptonCut();
       std::cout << std::endl;**/
 
+      // this needs to change if I ever get around to replacing Carsten's 7TeV
+      // grids:
+      int jetAcceptanceColumn( jetAcceptanceGridTableColumn );
+      if( 7 == signalDefinitions->getBeamEnergy() )
+      {
+        jetAcceptanceColumn = 10;
+      }
+
       std::string jetGridName( "Atlas3jMET" );
       threeJetKinematics
       = signalDefinitions->getShortcuts()->getJetPlusMetAcceptances(
                                                )->getJetPlusMetAcceptanceTable(
                                             signalDefinitions->getBeamEnergy(),
                                                                   &jetGridName,
-                                                jetAcceptanceGridTableColumn );
+                                                         jetAcceptanceColumn );
       jetGridName.assign( "Atlas2jMET" );
       twoJetKinematics
       = signalDefinitions->getShortcuts()->getJetPlusMetAcceptances(
                                                )->getJetPlusMetAcceptanceTable(
                                             signalDefinitions->getBeamEnergy(),
                                                                   &jetGridName,
-                                                jetAcceptanceGridTableColumn );
+                                                         jetAcceptanceColumn );
       excludedFinalStateParticles.push_back( CppSLHA::PDG_code::top );
       excludedFinalStateParticles.push_back( -(CppSLHA::PDG_code::top) );
     }
@@ -2185,7 +2225,7 @@ namespace LHC_FASER
 
 
     int const
-    cmsTwoJetAlphaTPlusGivenLeptonCuts::jetAcceptanceGridTableColumn( 10 );
+    cmsTwoJetAlphaTPlusGivenLeptonCuts::jetAcceptanceGridTableColumn( 5 );
     // this is dependent on the format of the grids.
     double const
     cmsTwoJetAlphaTPlusGivenLeptonCuts::defaultPrimaryLeptonCut( 20.0 );
@@ -2266,7 +2306,12 @@ namespace LHC_FASER
                             signalDefinitionSet const* const signalDefinitions,
      leptonAcceptanceForCascadePair const* const leptonAcceptanceCalculator ) :
         signalCalculator( signalDefinitions ),
-        leptonAcceptanceCalculator( leptonAcceptanceCalculator )
+        leptonAcceptanceCalculator( leptonAcceptanceCalculator ),
+        twoJetKinematics( NULL ),
+        subchannelValue( CppSLHA::CppSLHA_global::really_wrong_value ),
+        subchannelZeroOrMoreJets(
+                                 CppSLHA::CppSLHA_global::really_wrong_value ),
+        twoJetAcceptance( CppSLHA::CppSLHA_global::really_wrong_value )
     {
       // debugging:
       /**std::cout << std::endl << "debugging:"
@@ -2278,13 +2323,21 @@ namespace LHC_FASER
       << signalDefinitions->getSecondaryLeptonCut();
       std::cout << std::endl;**/
 
+      // this needs to change if I ever get around to replacing Carsten's 7TeV
+      // grids:
+      int jetAcceptanceColumn( jetAcceptanceGridTableColumn );
+      if( 7 == signalDefinitions->getBeamEnergy() )
+      {
+        jetAcceptanceColumn = 10;
+      }
+
       std::string jetGridName( "CMS2jalphaT" );
       twoJetKinematics
       = signalDefinitions->getShortcuts()->getJetPlusMetAcceptances(
                                                )->getJetPlusMetAcceptanceTable(
                                             signalDefinitions->getBeamEnergy(),
                                                                   &jetGridName,
-                                                jetAcceptanceGridTableColumn );
+                                                         jetAcceptanceColumn );
       excludedFinalStateParticles.push_back( CppSLHA::PDG_code::top );
       excludedFinalStateParticles.push_back( -(CppSLHA::PDG_code::top) );
     }
@@ -2484,7 +2537,8 @@ namespace LHC_FASER
                             signalDefinitionSet const* const signalDefinitions,
      leptonAcceptanceForCascadePair const* const leptonAcceptanceCalculator ) :
         signalCalculator( signalDefinitions ),
-        leptonAcceptanceCalculator( leptonAcceptanceCalculator )
+        leptonAcceptanceCalculator( leptonAcceptanceCalculator ),
+        subchannelValue( CppSLHA::CppSLHA_global::really_wrong_value )
     {
       // debugging:
       /**std::cout << std::endl << "debugging:"
