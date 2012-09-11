@@ -116,3 +116,5 @@ Debug/subdir.mk
 .cproject
 
 .project
+
+*.o

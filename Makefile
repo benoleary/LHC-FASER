@@ -1,5 +1,5 @@
 #
-# LHC-FASER Makefile to compile the libLHC-FASER.a library file.
+# Example Makefile.
 #
 
 SHELL = /bin/sh
@@ -8,9 +8,7 @@ CC=g++
 CCFLAGS= -Wall
 CCOBJFLAGS= -c
 CCEXEFLAGS=
-LDFLAGS= -L./ -lLHC-FASER
-AR=ar
-ARFLAGS=rcs
+LDFLAGS=
 SOURCES=LHC-FASER.cpp \
  LHC-FASER_base_electroweak_cascade_stuff.cpp \
  LHC-FASER_base_kinematics_stuff.cpp \
@@ -37,21 +35,15 @@ SOURCES=LHC-FASER.cpp \
  CppSLHA/CppSLHA_waiting_on_subprocess_executor.cpp \
  CppSLHA/CppSLHA.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
-LIBRARYFILE=libLHC-FASER.a
+LIGHTEXECUTABLE=LHC-FASER_Light.exe
 
-.PHONY: all
-all: $(SOURCES) $(LIBRARYFILE)
-	
+all: $(SOURCES) $(LIGHTEXECUTABLE)
+
 $(SOURCES):
-	$(CC) $(CCOBJFLAGS) $(CCFLAGS) $< -o $@
+	$(CC) $(CCFLAGS) $(CCOBJFLAGS) $< -o $@
+	
+$(LIGHTEXECUTABLE): LHC-FASER_Light.cpp $(OBJECTS) 
+	$(CC) $(LDFLAGS) $(OBJECTS) LHC-FASER_Light.cpp -o $@
 
-$(LIBRARYFILE): $(OBJECTS)
-	$(AR) $(ARFLAGS) $@ $(OBJECTS)
-
-.PHONY: deleteobjects
-deleteobjects:
-	\rm -f $(OBJECTS)
-
-.PHONY: clean
 clean:
-	\rm -f $(OBJECTS) $(LIBRARYFILE)
+	rm -rf *o $(EXECUTABLE)
