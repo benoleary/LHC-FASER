@@ -238,7 +238,8 @@ namespace LHC_FASER
                 int const firstScoloredCode,
                 int const secondScoloredCode );
     std::string
-    fullResultsForNewSlha( std::string const slhaFileName );
+    fullResultsForNewSlha( std::string const slhaFileName,
+                           std::string const positiveCodePrefix = "+" );
     void
     updateForNewSlha( std::string const slhaFileName );
     void
