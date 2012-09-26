@@ -96,6 +96,7 @@ namespace LHC_FASER
     signalPointer( NULL ),
     inputShortcut( NULL ),
     signalDefinitions( NULL ),
+    ignoredCrossSections(),
     readierObject()
   {
     initialize( spectrumData,
@@ -128,6 +129,7 @@ namespace LHC_FASER
     signalPointer( NULL ),
     inputShortcut( NULL ),
     signalDefinitions( NULL ),
+    ignoredCrossSections(),
     readierObject()
   {
     initialize( new CppSLHA::CppSLHA2( slhaFileName ),
