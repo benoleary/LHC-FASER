@@ -9,6 +9,8 @@ CCFLAGS= -Wall -O3
 CCOBJFLAGS= -c
 CCEXEFLAGS=
 LDFLAGS=
+AR=ar
+AFLAGS=rcs
 SOURCES=LHC-FASER.cpp \
  LHC-FASER_base_electroweak_cascade_stuff.cpp \
  LHC-FASER_base_kinematics_stuff.cpp \
@@ -35,15 +37,20 @@ SOURCES=LHC-FASER.cpp \
  CppSLHA/CppSLHA_waiting_on_subprocess_executor.cpp \
  CppSLHA/CppSLHA.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
+LIBRARYFILE=libLHC-FASER.a
 LIGHTEXECUTABLE=LHC-FASER_Light.exe
 
-all: $(OBJECTS) $(LIGHTEXECUTABLE)
+all: $(OBJECTS) $(LIBRARYFILE) $(LIGHTEXECUTABLE)
 
 $(OBJECTS): %.o: %.cpp
 	$(CC) $(CCFLAGS) $(CCOBJFLAGS) $< -o $@
+	
+$(LIBRARYFILE): $(OBJECTS)
+	$(AR) $(AFLAGS) $@ $(OBJECTS)
 	
 $(LIGHTEXECUTABLE): LHC-FASER_Light.cpp $(OBJECTS) 
 	$(CC) $(LDFLAGS) $(OBJECTS) LHC-FASER_Light.cpp -o $@
 
 clean:
 	rm -rf *o $(EXECUTABLE)
+	

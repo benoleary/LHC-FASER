@@ -565,7 +565,7 @@ namespace CppSLHA
         std::list< drawing_label* >::iterator
         first_label_iterator = labels.begin();
         std::list< drawing_label* >::iterator
-        second_label_iterator = labels.begin();
+        second_label_iterator = first_label_iterator;
         ++second_label_iterator;
         bool finished_floating_labels_flag = false;
         bool moved_labels_flag = false;

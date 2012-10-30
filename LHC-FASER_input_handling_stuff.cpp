@@ -957,7 +957,8 @@ namespace LHC_FASER
               << CppSLHA::CppSLHA_global::really_wrong_value_string;
               std::cout << std::endl;
             }
-            leftSquared = CppSLHA::CppSLHA_global::really_wrong_value;
+            leftCoupling = CppSLHA::CppSLHA_global::really_wrong_value;
+            rightCoupling = CppSLHA::CppSLHA_global::really_wrong_value;
           }
           leftSquared = ( leftCoupling * leftCoupling );
           return ( leftSquared
@@ -1385,7 +1386,8 @@ namespace LHC_FASER
             << CppSLHA::CppSLHA_global::really_wrong_value_string;
             std::cout << std::endl;
           }
-          leftSquared = CppSLHA::CppSLHA_global::really_wrong_value;
+          leftCoupling = CppSLHA::CppSLHA_global::really_wrong_value;
+          rightCoupling = CppSLHA::CppSLHA_global::really_wrong_value;
         }
       }
       leftSquared = ( leftCoupling * leftCoupling );

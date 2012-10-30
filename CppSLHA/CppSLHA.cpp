@@ -477,8 +477,6 @@ namespace CppSLHA
 
     reset();
 
-    bool successful_reading = false;
-
     std::cout
     << std::endl
     << "CppSLHA::read_file() (using \""
@@ -827,8 +825,6 @@ namespace CppSLHA
           } // end of recording a DECAY.
 
       }  // end of while loop going through all the lines of the SLHA file.
-
-    successful_reading = true;
 
     // debugging:
     /*std::cout
