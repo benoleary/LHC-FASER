@@ -3926,6 +3926,7 @@ namespace CppSLHA
     antiname_enterer.assign( "light_neutral_scalar_Higgs_boson" );
     get_particle_property_set(
                PDG_code::light_neutral_EWSB_scalar )->set_name( name_enterer );
+    light_neutral_EWSB_scalar_pointer = EWSB_scalar_pointer;
 
     // add heavy neutral electroweak-symmetry-breaking scalar boson:
     name_enterer.assign( "heavy_neutral_scalar_Higgs_boson" );
